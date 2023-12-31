@@ -56,3 +56,5 @@ router.post(
     }
   }
 );
+
+export { router };

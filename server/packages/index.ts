@@ -1,4 +1,5 @@
 import { router as userrouter } from "./routes/user";
+import { router as authrouter } from "./routes/auth";
 import { mongoConnect } from "./core/database";
 import express, { Express } from "express";
 import cors from "cors";
@@ -17,6 +18,7 @@ async function initialize(app: Express) {
   app.use(cors());
 
   app.use("/api/users", userrouter);
+  app.use("/api/auth", authrouter);
 
   console.log("Express application initialized");
   return app;
