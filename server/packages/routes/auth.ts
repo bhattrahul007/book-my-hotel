@@ -1,5 +1,6 @@
-import { Request, Response, Router } from "express";
+import { authenticateRequestToken } from "../core/middleware/authenticate";
 import { check, validationResult } from "express-validator";
+import { Request, Response, Router } from "express";
 import { UserModel } from "./../model/user";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
@@ -56,5 +57,20 @@ router.post(
     }
   }
 );
+
+// validation of token
+
+router.get(
+  "/tokens/validate",
+  authenticateRequestToken,
+  async (req: Request, res: Response) => {
+    res.status(200).json({ userId: req.userId });
+  }
+);
+
+router.post("/logout", async (req: Request, res: Response) => {
+  res.cookie("auth_token", "", { expires: new Date(0) });
+  return res.status(200).json({ message: "logged out successfully." });
+});
 
 export { router };

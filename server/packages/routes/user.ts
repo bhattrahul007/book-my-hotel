@@ -39,7 +39,9 @@ router.post(
           secure: process.env.NODE_ENV === "production",
           maxAge: 86400000,
         });
-        return res.sendStatus(200);
+        return res
+          .status(200)
+          .send({ message: "Account successfully registered." });
       } catch (error) {
         console.log("User signup route: ", error);
         return res.status(500).json({ message: "Something went wrong." });
