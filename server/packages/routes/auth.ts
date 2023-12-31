@@ -1,5 +1,6 @@
-import { Request, Response, Router } from "express";
+import { authenticateRequestToken } from "../core/middleware/authenticate";
 import { check, validationResult } from "express-validator";
+import { Request, Response, Router } from "express";
 import { UserModel } from "./../model/user";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
@@ -54,6 +55,16 @@ router.post(
     } else {
       return res.status(400).json({ errors: errors.array() });
     }
+  }
+);
+
+// validation of token
+
+router.get(
+  "/tokens/validate",
+  authenticateRequestToken,
+  async (req: Request, res: Response) => {
+    res.status(200).json({ userId: req.userId });
   }
 );
 
