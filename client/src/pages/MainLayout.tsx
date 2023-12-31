@@ -10,7 +10,12 @@ export const MainLayout = ({ children }: MainLayoutProps) => {
     <div className="flex flex-col min-h-screen">
       <Header />
       <HeroBanner />
-      <div className="container  mx-auto py-10 flex-1">{children}</div>
+      <div className="flex flex-col flex-1">
+        <div className="flex flex-col justify-center px-4 md:px-[10rem] py-8 flex-1">
+          {children}
+        </div>
+      </div>
+
       <Footer />
     </div>
   );

@@ -58,3 +58,15 @@ export const signin = async (params: SigninParam) => {
   }
   return result;
 };
+
+export const logout = async () => {
+  const response = await fetch(`${BACKEND_SERVER_BASEURI}/api/auth/logout`, {
+    credentials: "include",
+    method: "POST",
+  });
+  const result = await response.json();
+  if (!response.ok) {
+    throw new Error("error happened during logout.");
+  }
+  return result;
+};

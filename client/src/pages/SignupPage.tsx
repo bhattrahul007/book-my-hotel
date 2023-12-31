@@ -1,9 +1,9 @@
 import * as ApiClient from "./../api-client";
-import { useMutation } from "react-query";
+import { useMutation, useQueryClient } from "react-query";
 import { useForm } from "react-hook-form";
 import { useCallback } from "react";
 import { useAppContext } from "../context/AppContext";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 type RegisterFormParams = {
   firstName: string;
@@ -14,6 +14,7 @@ type RegisterFormParams = {
 };
 
 export const SignupPage = () => {
+  const queryClient = useQueryClient();
   const navigate = useNavigate();
   const { showToast } = useAppContext();
   const {
@@ -24,7 +25,8 @@ export const SignupPage = () => {
   } = useForm<RegisterFormParams>();
 
   const mutation = useMutation(ApiClient.authSignup, {
-    onSuccess: () => {
+    onSuccess: async () => {
+      await queryClient.invalidateQueries("validateToken");
       showToast({ children: "Account created", type: "success" });
       navigate("/");
     },
@@ -150,13 +152,21 @@ export const SignupPage = () => {
           )}
         </label>
       </div>
-      <div>
+      <div className="flex flex-col gap-3 lg:gap-0 lg:flex-row items-center justify-between">
         <button
           type="submit"
           className="bg-blue-600 text-white p-2 font-bold hover:bg-blue-500 text-xl"
         >
           Create an account
         </button>
+        <div>
+          <span className="text-sm">
+            Already have an account?{" "}
+            <Link className="text-blue-600" to="/auth/signin">
+              Sign in
+            </Link>
+          </span>
+        </div>
       </div>
     </form>
   );

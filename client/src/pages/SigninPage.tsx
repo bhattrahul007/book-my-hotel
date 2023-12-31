@@ -1,7 +1,9 @@
 import { useForm } from "react-hook-form";
-import { useMutation } from "react-query";
+import { useMutation, useQueryClient } from "react-query";
 import * as ApiClient from "./../api-client";
 import { useCallback } from "react";
+import { useAppContext } from "../context/AppContext";
+import { Link, useNavigate } from "react-router-dom";
 
 export type SigninFormParam = {
   email: string;
@@ -9,6 +11,10 @@ export type SigninFormParam = {
 };
 
 export const SigninPage = () => {
+  const queryClient = useQueryClient();
+  const { showToast } = useAppContext();
+  const navigate = useNavigate();
+
   const {
     register,
     handleSubmit,
@@ -17,10 +23,12 @@ export const SigninPage = () => {
 
   const mutation = useMutation(ApiClient.signin, {
     onSuccess: async () => {
-      console.log("user logged in.");
+      await queryClient.invalidateQueries("validateToken");
+      showToast({ children: "Sign in successfull.", type: "success" });
+      navigate("/");
     },
     onError: async (error: Error) => {
-      console.error("login error: ", error);
+      showToast({ children: error.message, type: "error" });
     },
   });
 
@@ -78,13 +86,21 @@ export const SigninPage = () => {
             )}
           </label>
         </div>
-        <div>
+        <div className="flex flex-col gap-3 lg:gap-0 lg:flex-row items-center justify-between">
           <button
             type="submit"
             className="bg-blue-600 text-white p-2 font-bold hover:bg-blue-500 text-xl"
           >
             Log in
           </button>
+          <div>
+            <span className="text-sm">
+              Don't have an account?{" "}
+              <Link className="text-blue-600" to="/auth/signup">
+                Create an account
+              </Link>
+            </span>
+          </div>
         </div>
       </form>
     </>
