@@ -1,5 +1,7 @@
-import express, { Request, Response, Express } from "express";
+import { router as userrouter } from "./routes/user";
+import { router as authrouter } from "./routes/auth";
 import { mongoConnect } from "./core/database";
+import express, { Express } from "express";
 import cors from "cors";
 import "dotenv/config";
 
@@ -15,9 +17,9 @@ async function initialize(app: Express) {
   app.use(express.urlencoded({ extended: true }));
   app.use(cors());
 
-  app.get("/api/test", async (req: Request, res: Response) => {
-    res.json({ message: "hello from express endpoint" });
-  });
+  app.use("/api/users", userrouter);
+  app.use("/api/auth", authrouter);
+
   console.log("Express application initialized");
   return app;
 }
