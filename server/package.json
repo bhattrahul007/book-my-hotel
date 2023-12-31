@@ -5,8 +5,9 @@
   "main": "./packages/index.js",
   "scripts": {
     "start:dev": "cross-env NODE_ENV=development nodemon --exec ts-node --files ./packages/index.ts",
-    "start:test": "",
-    "start:prod": ""
+    "start:test": "cross-env NODE_ENV=test DOTENV_CONFIG_PATH=.env.e2e nodemon --exec ts-node --files ./packages/index.ts",
+    "build": "npm install && npx tsc",
+    "start:prod": "node ./dist/index.js"
   },
   "keywords": [],
   "author": "",

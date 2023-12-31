@@ -11,8 +11,9 @@ type SigninParam = {
   password: string;
 };
 
-const API_AUTH_SIGNUP_URL = import.meta.env.VITE_API_AUTH_SIGNUP_URL;
-const BACKEND_SERVER_BASEURI = import.meta.env.VITE_BACKEND_SERVER_BASEURI;
+const API_AUTH_SIGNUP_URL = import.meta.env.VITE_API_AUTH_SIGNUP_URL || "";
+const BACKEND_SERVER_BASEURI =
+  import.meta.env.VITE_BACKEND_SERVER_BASEURI || "";
 
 export const authSignup = async (params: SignupParams) => {
   const response = await fetch(`${API_AUTH_SIGNUP_URL}/signup`, {

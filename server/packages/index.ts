@@ -4,6 +4,7 @@ import { mongoConnect } from "./core/database";
 import express, { Express } from "express";
 import cookieParser from "cookie-parser";
 import cors from "cors";
+import path from "path";
 import "dotenv/config";
 
 const mongouri = process.env.MONGO_DATABASE_URI || "";
@@ -24,7 +25,7 @@ async function initialize(app: Express) {
       credentials: true,
     })
   );
-
+  app.use(express.static(path.join(__dirname, "../../client/dist")));
   app.use("/api/users", userrouter);
   app.use("/api/auth", authrouter);
 

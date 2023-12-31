@@ -24,7 +24,7 @@ export const Header = () => {
                 className="flex items-center text-white px-3 font-bold hover:bg-blue-600"
                 to="/hotels"
               >
-                My hotels
+                My Hotels
               </Link>
               <SignoutButton />
             </>
@@ -33,7 +33,7 @@ export const Header = () => {
               to="/auth/signin"
               className="flex items-center bg-white text-blue-600 px-3 font-bold hover:bg-gray-100"
             >
-              Signin
+              Sign in
             </Link>
           )}
         </span>
