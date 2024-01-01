@@ -1,8 +1,10 @@
 import { router as userrouter } from "./routes/user";
 import { router as authrouter } from "./routes/auth";
+import { router as myHotelRouter } from "./routes/myHotels";
 import { mongoConnect } from "./core/database";
 import express, { Express } from "express";
 import cookieParser from "cookie-parser";
+import { v2 as cloudinary } from "cloudinary";
 import cors from "cors";
 import path from "path";
 import "dotenv/config";
@@ -14,6 +16,11 @@ const app = express();
 
 async function initialize(app: Express) {
   await mongoConnect(mongouri);
+  cloudinary.config({
+    cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
+    api_key: process.env.CLOUDINARY_API_KEY,
+    api_secret: process.env.CLOUDINARY_API_SECRET,
+  });
 
   console.log("Initialize our express app");
   app.use(cookieParser());
@@ -28,6 +35,7 @@ async function initialize(app: Express) {
   app.use(express.static(path.join(__dirname, "../../client/dist")));
   app.use("/api/users", userrouter);
   app.use("/api/auth", authrouter);
+  app.use("/api/my-hotels", myHotelRouter);
 
   console.log("Express application initialized");
   return app;
