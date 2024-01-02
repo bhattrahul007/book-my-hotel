@@ -11,7 +11,7 @@ Before you begin, ensure you have Node.js installed on your system.
 Start by cloning the repository to your local machine:
 
 ```bash
-git clone https://github.com/chrisblakely01/mern-booking-app.git
+https://github.com/bhattrahul007/book-my-hotel.git
 cd mern-booking-app
 ```
 
